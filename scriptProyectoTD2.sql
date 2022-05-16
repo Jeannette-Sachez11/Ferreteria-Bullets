@@ -20,7 +20,7 @@ create table CompraM(
 	id_compra integer NOT NULL GENERATED ALWAYS AS IDENTITY,
 	id_proveedor integer NOT NULL,
 	montoCTotal numeric(10,2) NOT NULL constraint montoCTotal_Invalido check(montoCTotal > 0 ),
-	fechaCompra date NOT NULL constraint  fechaCompra_invalida check (fechaCompra >= now()),
+	fechaCompra date NOT NULL,
 	primary key(id_compra),
 	foreign key(id_proveedor) references Proveedor on delete cascade
 
@@ -63,7 +63,7 @@ create table Detalle_Compra(
 create table Venta(
 	id_venta integer NOT NULL GENERATED ALWAYS AS IDENTITY,
 	monto_final numeric(10,2) NOT NULL constraint monto_finalInvalido check (monto_final > 0),
-	fecha_venta date NOT NULL constraint  fecha_venta_invalida check (fecha_venta >= now()),
+	fecha_venta date NOT NULL,
 	primary key(id_venta)
 );
 
@@ -74,6 +74,7 @@ create table Detalle_Venta(
 	cantidad integer NOT NULL constraint cantidad_invalido check (cantidad > 0),
 	precio_VDTV numeric(10,2) NOT NULL constraint precio_VDTV_Invalido check(precio_VDTV > 0 ),
 	primary key(id_venta, cns),
+	foreign key(id_venta) references Venta on delete cascade,
 	foreign key(codigo_barras) references Materiales on delete cascade
 
 );
