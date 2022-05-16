@@ -200,7 +200,7 @@ public class Ingreso extends javax.swing.JFrame {
                    
                    
                    Ventana_admin nf= new Ventana_admin();
-                   Ventana_caj vc= new Ventana_caj();
+                   
                     if(Nombre_Usu.equals("jeannette_admin")&&Contra_Usu.equals("adminJeannette"))
                     {
                        nf.setVisible(true);
@@ -209,16 +209,8 @@ public class Ingreso extends javax.swing.JFrame {
                     {
                        nf.setVisible(true);
                        this.dispose();
-                    }else if(Nombre_Usu.equals("anahi_cajera")&&Contra_Usu.equals("cajeraAna"))
-                    {
-                       vc.setVisible(true);
-                       this.dispose();
-                    }else if(Nombre_Usu.equals("natalia_cajera")&&Contra_Usu.equals("cajeraNati"))
-                    {
-                       vc.setVisible(true);
-                       this.dispose();
                     }else{
-                        JOptionPane.showMessageDialog(rootPane, "Usuario o contraseña incorrectos!!");
+                        JOptionPane.showMessageDialog(rootPane, "Usuario o Contraseña incorrectos!!");
                         limpiarLoggin();
                     }
                     
