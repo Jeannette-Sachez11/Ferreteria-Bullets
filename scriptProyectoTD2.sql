@@ -4,8 +4,6 @@ create database Ferreteria_Bullets;
 
 --cambiar de base de datos
 
-\c ferreteria_bullets
-
 create table Proveedor(
 	id_proveedor integer NOT NULL GENERATED ALWAYS AS IDENTITY,
 	nombre varchar NOT NULL,
@@ -14,13 +12,11 @@ create table Proveedor(
 	primary key(id_proveedor)
 );
 
---tabla CompraM
-
 create table CompraM(
-	id_compra integer NOT NULL GENERATED ALWAYS AS IDENTITY,
+	id_compra eger NOT NULL GENERATED ALWAYS AS IDENTITY,
 	id_proveedor integer NOT NULL,
 	montoCTotal numeric(10,2) NOT NULL constraint montoCTotal_Invalido check(montoCTotal > 0 ),
-	fechaCompra date NOT NULL constraint  fechaCompra_invalida check (fechaCompra >= now()),
+	fechaCompra date NOT NULL,
 	primary key(id_compra),
 	foreign key(id_proveedor) references Proveedor on delete cascade
 
@@ -45,25 +41,25 @@ create table Materiales(
 	foreign key(id_categoria) references Categoria on delete cascade
 );
 
---tabla Detalle_CompraM
+
 create table Detalle_Compra(
 	id_compra integer NOT NULL,
 	cns_compra integer NOT NULL,
 	codigo_barras varchar NOT NULL,
 	descripcionDC varchar NOT NULL,
-	cantidadDC integer NOT NULL constraint cantidad_invalido check(cantidadDC > 0),
-	precioDC numeric(10,2) NOT NULL constraint precioDC_invalido check(precioDC > 0),
+	cantidadDC integer NOT NULL constraint cantidad_invalido check(cantidadDC > 0),--cantidad
+	precioDC numeric(10,2) NOT NULL constraint precioDC_invalido check(precioDC > 0),--precio por producto
+	montoPC numeric(10,2) NOT NULL constraint monto_invalido check(montoPC>0),--monto total por producto
 	primary key(id_compra, cns_compra),
 	foreign key(id_compra) references CompraM on delete cascade,
 	foreign key(codigo_barras) references Materiales on delete cascade
 
 );
 
-
 create table Venta(
 	id_venta integer NOT NULL GENERATED ALWAYS AS IDENTITY,
 	monto_final numeric(10,2) NOT NULL constraint monto_finalInvalido check (monto_final > 0),
-	fecha_venta date NOT NULL constraint  fecha_venta_invalida check (fecha_venta >= now()),
+	fecha_venta date NOT NULL,
 	primary key(id_venta)
 );
 
@@ -73,16 +69,11 @@ create table Detalle_Venta(
 	codigo_barras varchar NOT NULL,
 	cantidad integer NOT NULL constraint cantidad_invalido check (cantidad > 0),
 	precio_VDTV numeric(10,2) NOT NULL constraint precio_VDTV_Invalido check(precio_VDTV > 0 ),
+	montoVM numeric(10,2) NOT NULL constraint montoVM_invalido check(montoVM > 0),
 	primary key(id_venta, cns),
+	foreign key(id_venta) references Venta on delete cascade,
 	foreign key(codigo_barras) references Materiales on delete cascade
 
-);
-
-create table Usuarios(
-	idUsuario varchar NOT NULL, 
-	nombreUsu varchar NOT NULL,
-	contraUsu varchar NOT NULL,
-	primary key (idUsuario)
 );
 
 --comanderia SQL necesaria--

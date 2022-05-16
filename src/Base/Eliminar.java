@@ -48,7 +48,27 @@ public class Eliminar {
         
     }
     
-    public boolean eliminarCompra(){
+   public boolean eliminarCompra(int id_compra){
+        
+        sqlElim ="delete from CompraM where id_compra ="+id_compra+" ";
+        respElim = true;
+        
+        try{
+            stElim=conex.createStatement();
+            respElim=stElim.execute(sqlElim);
+            System.out.println(respElim);
+        }catch(Exception e)
+        {
+             JOptionPane.showMessageDialog(null,e.getMessage() );
+        }finally{
+            try{
+                stElim.close();//cierra la conexion
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(null,ex.getMessage() );
+                System.out.println(ex.getMessage());
+            }
+        }
+        
          return !respElim;//retorno de respuesta
     }
     
@@ -95,16 +115,28 @@ public class Eliminar {
         return !respElim;//retorno de respuesta   
     }
     
-    public void eliminarDetaCompra(){
+   public boolean eliminarVenta(int id_venta){
         
-    }
-    
-    public void eliminarVenta(){
+        sqlElim = " delete from Venta where id_venta = "+id_venta+" ";
+        respElim = true;
         
-    }
-
-    public void eliminarDetaVenta(){
+        try{
+            stElim=conex.createStatement();
+            respElim=stElim.execute(sqlElim);
+            System.out.println(respElim);
+        }catch(Exception e)
+        {
+             JOptionPane.showMessageDialog(null,e.getMessage() );
+        }finally{
+            try{
+                stElim.close();//cierra la conexion
+            }catch(Exception ex){
+                JOptionPane.showMessageDialog(null,ex.getMessage() );
+                System.out.println(ex.getMessage());
+            }
+        }
         
+        return respElim;
     }
     
    
