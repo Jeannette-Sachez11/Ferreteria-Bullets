@@ -210,7 +210,7 @@ public class Ingreso extends javax.swing.JFrame {
                        nf.setVisible(true);
                        this.dispose();
                     }else{
-                        JOptionPane.showMessageDialog(rootPane, "Usuario o contraseña incorrectos!!");
+                        JOptionPane.showMessageDialog(rootPane, "Usuario o Contraseña incorrectos!!");
                         limpiarLoggin();
                     }
                     
