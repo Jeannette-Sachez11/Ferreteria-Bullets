@@ -75,10 +75,30 @@ public class Buscar {
         
     }
     
-    public void buscarCompra(){
+    public String [] buscarCompra(int id_compra){
+        String sql="Select * from venta where id_compra="+id_compra+"";
+        String []y=new String[3];
+        try{
+            
+               y[0] = rs.getString("id_proveedor");
+               y[1] = rs.getString("montoCTotal");
+               y[2] = rs.getString("fechaCompra");
+               
+        }catch(Exception e){
+            
+           JOptionPane.showMessageDialog(null,e.getMessage() );
+           System.out.println(e.getMessage());
+           
+        }try{
+            st.close();
+        }catch(Exception ex){
+            
+            JOptionPane.showMessageDialog(null,ex.getMessage() );
+            
+        }
         
+        return y;
     }
-    
     public String[] buscarCategoria(String nombre_c){
         
         String sql="select * from Categoria where nombre_c ='"+nombre_c+"';";
@@ -259,12 +279,30 @@ public class Buscar {
         return precio;
     }
     
-    public void buscarVenta(){
+    public String[] buscarVenta(int id_venta){
+        sql = "select * from Venta where id_venta = "+id_venta+" ";
+        String []y = new String[2];
         
-    }
-    
-    public void buscarDetaVenta(){
+        try{
+           st=conex.createStatement();
+           rs=st.executeQuery(sql);
+           while(rs.next()){
+               y[0] = rs.getString("monto_final");
+               y[1] = rs.getString("fecha_venta");
+
+           }  
+        }catch(Exception e){
+           JOptionPane.showMessageDialog(null,e.getMessage() );
+           System.out.println(e.getMessage());
+        }finally{
+            try {
+                st.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,ex.getMessage() );
+            }
+        }
         
+        return y;
     }
    
    //--------------------------------------------------------------Realizar validaciones------------------------------------
@@ -352,10 +390,83 @@ public class Buscar {
         
         return respu;
     }
-    //---------------------------------------------Buscar el maximo ide de compra y venta--------------------------------------------------
-    public void maxCompra(){
+    //---------------------------------------------Consultas de ingreso--------------------------------------------------
+    public String consultaIngreso(String fecha1, String fecha2){
+	
+	String impIngreso = "";
+
+	sql = "Select sum(monto_final) from Venta where fecha_venta between  '"+fecha1+"' and '"+fecha2+"' ";
+    try{
+        st=conex.createStatement();
+        rs=st.executeQuery(sql);
+        while(rs.next())
+        {
+                impIngreso=rs.getString(1);
+        }
+      
+        }catch(Exception e){
+           JOptionPane.showMessageDialog(null,e.getMessage() );
+           System.out.println(e.getMessage());
+        }finally{
+            try {
+                st.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,ex.getMessage() );
+            }
+        }
+        return impIngreso;
     }
-    public void maxVenta(){
+    
+    public String IngresoDia(String Fecha)
+    {
+        String IngresoD="";
+        sql="select sum(monto_final) from venta where fecha_venta='"+Fecha+"';";
+        try{
+        st=conex.createStatement();
+        rs=st.executeQuery(sql);
+        while(rs.next())
+        {
+                IngresoD=rs.getString(1);
+        }
+      
+        }catch(Exception e){
+           JOptionPane.showMessageDialog(null,e.getMessage() );
+           System.out.println(e.getMessage());
+        }finally{
+            try {
+                st.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,ex.getMessage() );
+            }
+        }
+        
+        return IngresoD;
     }
+    public String consultaEgreso(String fecha1, String fecha2){
+	
+	String impEgreso = "";
+
+	sql = "Select sum(montoCTotal) from CompraM where fechacompra between  '"+fecha1+"' and '"+fecha2+"' ";
+    try{
+        st=conex.createStatement();
+        rs=st.executeQuery(sql);
+        while(rs.next())
+        {
+                impEgreso=rs.getString(1);
+        }
+      
+        }catch(Exception e){
+           JOptionPane.showMessageDialog(null,e.getMessage() );
+           System.out.println(e.getMessage());
+        }finally{
+            try {
+                st.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null,ex.getMessage() );
+            }
+        }
+    return impEgreso;
+}
+    
     
 }//fin de la clase buscar
